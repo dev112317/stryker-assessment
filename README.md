@@ -12,7 +12,6 @@ A full-stack web application for extracting structured data from PDF invoices us
 - **Modern UI**: Clean, responsive interface built with Next.js and Tailwind CSS
 
 ## Tech Stack
-
 ### Frontend
 - Next.js 14 (App Router)
 - React 18
