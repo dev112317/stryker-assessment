@@ -1,169 +1,174 @@
-# Document Extraction System
+# 📄 Document Extraction System
 
-A full-stack web application for extracting structured data from PDF invoices using AI.
+A modern, AI-powered document processing system that extracts structured data from PDFs, images, and other document formats using advanced OCR and machine learning techniques.
 
-## Features
+![Document Extraction System](https://img.shields.io/badge/Version-2.0.0-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.11+-green.svg)
+![Next.js](https://img.shields.io/badge/Next.js-14+-black.svg)
+![SQLite](https://img.shields.io/badge/SQLite-3.0+-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-- **PDF Upload**: Upload PDF invoice documents
-- **AI-Powered Extraction**: Uses OpenAI GPT to extract structured data
-- **Real-time Processing**: Responsive UI with loading states
-- **Data Editing**: Review and edit extracted data before saving
-- **Database Storage**: Persistent storage with SQLite
-- **Modern UI**: Clean, responsive interface built with Next.js and Tailwind CSS
+## ✨ Features
 
-## Tech Stack
-### Frontend
-- Next.js 14 (App Router)
-- React 18
-- Tailwind CSS
-- shadcn/ui components
-- TypeScript
+### 🎯 Core Functionality
+- **Multi-Format Support**: Process PDFs, images (PNG, JPG, TIFF), Word documents, Excel files, and CSV
+- **AI-Powered Extraction**: Advanced GPT-4 integration for intelligent data extraction
+- **Smart Document Detection**: Automatic document type identification with confidence scoring
+- **Real-Time Processing**: Live progress updates with WebSocket support
+- **Batch Processing**: Handle multiple documents simultaneously
+- **Template-Based Extraction**: Fallback extraction using predefined templates
 
-### Backend
-- Flask (Python)
-- SQLite database
-- OpenAI API
-- pdfplumber for PDF processing
+### 🎨 Modern UI/UX
+- **Glassmorphism Design**: Beautiful frosted glass effects with backdrop blur
+- **Responsive Layout**: Optimized for desktop, tablet, and mobile devices
+- **Dark/Light Themes**: Automatic theme switching with system preference detection
+- **Micro-Interactions**: Smooth animations and hover effects
+- **Real-Time Feedback**: Instant visual feedback for all user actions
+- **Accessibility**: Full WCAG 2.1 AA compliance with screen reader support
 
-## Setup Instructions
+### 🔧 Advanced Features
+- **Document Versioning**: Track changes and maintain document history
+- **Export Options**: JSON, CSV, and Excel export formats
+- **Search & Filter**: Advanced document search with multiple criteria
+- **Audit Logging**: Comprehensive activity tracking and logging
+- **API Integration**: RESTful API with comprehensive documentation
+- **Performance Monitoring**: Built-in analytics and performance metrics
+
+## 🏗️ Architecture
+
+\`\`\`
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend       │    │   Database      │
+│   (Next.js)     │◄──►│   (Flask)       │◄──►│   (SQLite3)     │
+│                 │    │                 │    │                 │
+│ • React 18      │    │ • Python 3.11   │    │ • Documents     │
+│ • Tailwind CSS  │    │ • OpenAI API    │    │ • Extracted Data│
+│ • TypeScript    │    │ • OCR Engine    │    │ • Audit Logs    │
+│ • shadcn/ui     │    │ • File Processing│    │ • Statistics    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+\`\`\`
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
-- Python 3.8+
-- OpenAI API key
 
-### Backend Setup
+- **Node.js** 18.0+ ([Download](https://nodejs.org/))
+- **Python** 3.11+ ([Download](https://python.org/))
+- **OpenAI API Key** ([Get one here](https://platform.openai.com/api-keys))
 
-1. Navigate to the scripts directory:
+### 1. Clone Repository
+
 \`\`\`bash
+git clone https://github.com/your-username/document-extraction-system.git
+cd document-extraction-system
+\`\`\`
+
+### 2. Backend Setup
+
+\`\`\`bash
+# Navigate to scripts directory
 cd scripts
-\`\`\`
 
-2. Install Python dependencies:
-\`\`\`bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
-\`\`\`
 
-3. Set up environment variables:
-\`\`\`bash
+# Set environment variables
 export OPENAI_API_KEY="your-openai-api-key-here"
+export FLASK_ENV="development"
+export SECRET_KEY="your-secret-key-here"
+
+# Initialize database
+python init_db.py
+
+# Start backend server
+python main.py
 \`\`\`
 
-4. Initialize the database:
+The backend will be available at `http://localhost:5000`
+
+### 3. Frontend Setup
+
 \`\`\`bash
-python setup_database.py
-\`\`\`
-
-5. Start the Flask server:
-\`\`\`bash
-python flask_app.py
-\`\`\`
-
-The backend will run on `http://localhost:5000`
-
-### Frontend Setup
-
-1. Install dependencies:
-\`\`\`bash
+# Install dependencies
 npm install
-\`\`\`
 
-2. Start the development server:
-\`\`\`bash
+# Set environment variables
+echo "NEXT_PUBLIC_API_URL=http://localhost:5000" > .env.local
+
+# Start development server
 npm run dev
 \`\`\`
 
-The frontend will run on `http://localhost:3000`
+The frontend will be available at `http://localhost:3000`
 
-## Usage
-
-1. Open the web application in your browser
-2. Upload a PDF invoice using the file upload component
-3. Click "Process Document" to extract data using AI
-4. Review and edit the extracted fields as needed
-5. Click "Save" to store the data in the database
-
-## API Endpoints
-
-- `POST /api/process-document` - Upload and process a PDF document
-- `POST /api/save-data` - Save extracted data to database
-- `GET /api/health` - Health check endpoint
-
-## Database Schema
-
-### extracted_data table
-- `id` - Primary key
-- `vendor_name` - Vendor/company name
-- `invoice_number` - Invoice number
-- `date` - Invoice date
-- `total_amount` - Total amount
-- `raw_text` - Raw extracted text
-- `created_at` - Timestamp
-
-## Scaling Strategies
-
-### Performance Optimization
-- **Async Processing**: Implement background job queues (Celery + Redis)
-- **Caching**: Cache LLM responses for similar documents
-- **Database Optimization**: Add indexes, consider PostgreSQL for production
-
-### Infrastructure Scaling
-- **Containerization**: Docker containers for easy deployment
-- **Load Balancing**: Multiple Flask instances behind a load balancer
-- **Cloud Services**: AWS Lambda for serverless processing, S3 for file storage
-
-### Feature Enhancements
-- **Multi-format Support**: Support for more document types (Word, Excel, images)
-- **Batch Processing**: Process multiple documents simultaneously
-- **User Authentication**: Multi-tenant support with user accounts
-- **Audit Logging**: Track all document processing activities
-
-## Security Considerations
-
-- **File Validation**: Strict file type and size validation
-- **Rate Limiting**: Prevent API abuse
-- **Data Encryption**: Encrypt sensitive data at rest
-- **Access Control**: Implement proper authentication and authorization
-
-## Testing
-
-Run the test script to verify PDF processing:
-\`\`\`bash
-python scripts/test_pdf_processing.py
-\`\`\`
-
-## Deployment
-
-### Docker Deployment
-\`\`\`bash
-# Build and run with Docker Compose
-docker-compose up --build
-\`\`\`
-
-### Cloud Deployment
-- **Frontend**: Deploy to Vercel or Netlify
-- **Backend**: Deploy to AWS EC2, Google Cloud Run, or Heroku
-- **Database**: Use managed database services (AWS RDS, Google Cloud SQL)
-
-## Environment Variables
+### 4. Verify Installation
 
 \`\`\`bash
-# Backend
-OPENAI_API_KEY=your-openai-api-key
-DATABASE_URL=sqlite:///documents.db  # or PostgreSQL URL for production
+# Test backend health
+curl http://localhost:5000/api/health
 
-# Frontend
-NEXT_PUBLIC_API_URL=http://localhost:5000  # Backend URL
+# Run test suite
+python scripts/test_sqlite_backend.py
 \`\`\`
 
-## Contributing
+## 📖 Usage Guide
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
+### Simple Mode (Single Document)
 
-## License
+1. **Upload Document**
+   - Drag and drop or click to select a file
+   - System automatically detects document type
+   - Review detection results and confidence score
 
-MIT License - see LICENSE file for details
+2. **Process Document**
+   - Click "Process Document" to start extraction
+   - Monitor real-time progress updates
+   - Review extracted data in structured format
+
+3. **Review & Edit**
+   - Verify extracted information accuracy
+   - Edit any incorrect fields
+   - Add additional metadata if needed
+
+4. **Save Results**
+   - Save to database for future reference
+   - Export in JSON, CSV, or Excel format
+   - Share results via API endpoints
+
+### Multiple Mode (Batch Processing)
+
+1. **Upload Multiple Files**
+   - Select multiple documents at once
+   - System queues documents for processing
+   - Monitor batch progress in real-time
+
+2. **Batch Processing**
+   - Documents processed sequentially
+   - Individual progress tracking per document
+   - Automatic error handling and retry logic
+
+3. **Results Management**
+   - View batch processing summary
+   - Download individual or combined results
+   - Filter and search processed documents
+
+## 🔌 API Documentation
+
+### Authentication
+
+All API endpoints require authentication via API key:
+
+\`\`\`bash
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     http://localhost:5000/api/endpoint
+\`\`\`
+
+### Core Endpoints
+
+#### Health Check
+```http
+GET /api/health

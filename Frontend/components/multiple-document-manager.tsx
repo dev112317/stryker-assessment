@@ -171,7 +171,7 @@ export function MultipleDocumentManager() {
 
   const checkBackendHealth = useCallback(async (): Promise<boolean> => {
     try {
-      const response = await fetch("http://localhost:5000/api/health")
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/health`)
       return response.ok
     } catch {
       return false
@@ -184,7 +184,7 @@ export function MultipleDocumentManager() {
     formData.append("file", doc.file)
     formData.append("document_type", doc.documentType)
 
-    const uploadResponse = await fetch("http://localhost:5000/api/multiple/upload", {
+    const uploadResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/multiple/upload`, {
       method: "POST",
       body: formData,
     })
@@ -196,7 +196,7 @@ export function MultipleDocumentManager() {
     const uploadResult = await uploadResponse.json()
 
     // Process
-    const processResponse = await fetch(`http://localhost:5000/api/multiple/process/${uploadResult.document_id}`, {
+    const processResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/multiple/process/${uploadResult.document_id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     })

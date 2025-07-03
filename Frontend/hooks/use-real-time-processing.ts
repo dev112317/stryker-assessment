@@ -3,6 +3,8 @@
 import { useState, useCallback, useRef } from "react"
 import { useToast } from "@/hooks/use-toast"
 
+const Backend_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+
 export interface ProcessingState {
   isProcessing: boolean
   step: "idle" | "upload" | "extraction" | "analysis" | "validation" | "complete" | "error"
@@ -41,7 +43,7 @@ export function useRealTimeProcessing() {
 
   const checkBackendHealth = useCallback(async (): Promise<boolean> => {
     try {
-      const response = await fetch("http://localhost:5000/api/health", {
+      const response = await fetch(`${Backend_URL}/health`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       })
@@ -121,7 +123,7 @@ export function useRealTimeProcessing() {
       formData.append("file", file)
       formData.append("document_type", documentType)
 
-      const uploadResponse = await fetch("http://localhost:5000/api/simple/upload", {
+      const uploadResponse = await fetch(`${Backend_URL}/simple/upload`, {
         method: "POST",
         body: formData,
         signal: abortControllerRef.current?.signal,
@@ -151,7 +153,7 @@ export function useRealTimeProcessing() {
         estimatedTimeRemaining: 3000,
       })
 
-      const processResponse = await fetch(`http://localhost:5000/api/simple/process/${uploadResult.document_id}`, {
+      const processResponse = await fetch(`${Backend_URL}/simple/process/${uploadResult.document_id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         signal: abortControllerRef.current?.signal,
@@ -162,6 +164,8 @@ export function useRealTimeProcessing() {
       }
 
       const processResult = await processResponse.json()
+
+      console.log(processResult)
       
       // Step 3: Validation
       updateProcessingState({
@@ -337,7 +341,7 @@ export function useRealTimeProcessing() {
         const isBackendAvailable = await checkBackendHealth()
 
         if (isBackendAvailable) {
-          const response = await fetch("http://localhost:5000/api/simple/save", {
+          const response = await fetch(`${Backend_URL}/simple/save`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
