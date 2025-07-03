@@ -32,52 +32,7 @@ import { StructuredDataViewer } from "@/components/structured-data-viewer"
 import { MultipleDocumentManager } from "@/components/multiple-document-manager"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { AnimatedBackground } from "@/components/animated-background"
-
-type DocumentType = "invoice" | "receipt" | "contract" | "financial_statement"
-
-interface DocumentTypeConfig {
-  name: string
-  description: string
-  icon: React.ComponentType<{ className?: string }>
-  color: string
-  gradient: string
-  examples: string[]
-}
-
-const DOCUMENT_TYPES: Record<DocumentType, DocumentTypeConfig> = {
-  invoice: {
-    name: "Invoice",
-    description: "Business invoices and billing documents",
-    icon: FileText,
-    color: "text-rose-600 dark:text-rose-400",
-    gradient: "from-rose-500 to-pink-500",
-    examples: ["invoice.pdf", "bill_123.pdf", "inv_2024.pdf"],
-  },
-  receipt: {
-    name: "Receipt",
-    description: "Purchase receipts and transaction records",
-    icon: ImageIcon,
-    color: "text-blue-600 dark:text-blue-400",
-    gradient: "from-blue-500 to-cyan-500",
-    examples: ["receipt.jpg", "purchase_rec.png", "transaction.pdf"],
-  },
-  contract: {
-    name: "Contract",
-    description: "Legal contracts and agreements",
-    icon: FileTextIcon,
-    color: "text-purple-600 dark:text-purple-400",
-    gradient: "from-purple-500 to-indigo-500",
-    examples: ["contract.docx", "agreement.pdf", "terms.doc"],
-  },
-  financial_statement: {
-    name: "Financial Statement",
-    description: "Financial reports and statements",
-    icon: FileSpreadsheetIcon,
-    color: "text-emerald-600 dark:text-emerald-400",
-    gradient: "from-emerald-500 to-teal-500",
-    examples: ["balance_sheet.xlsx", "income_statement.csv", "financial_report.pdf"],
-  },
-}
+import { DOCUMENT_TYPES, DocumentType } from "@/lib/types"
 
 export default function DocumentExtractionApp() {
   const [file, setFile] = useState<File | null>(null)
@@ -100,7 +55,6 @@ export default function DocumentExtractionApp() {
     resetProcessing,
   } = useRealTimeProcessing()
 
-  // Supported file types
   const supportedTypes = [
     "application/pdf",
     "image/png",
@@ -332,17 +286,17 @@ export default function DocumentExtractionApp() {
 
       {/* Header */}
       <div className="relative z-10 border-b border-slate-200/50 dark:border-slate-800/50 backdrop-blur-sm bg-white/80 dark:bg-slate-950/80">
-        <div className="container mx-auto px-6 py-6">
+        <div className="container max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
               <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg">
-                <Brain className="h-8 w-8 text-white" />
+                <Brain className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
                   AI Document Processor
                 </h1>
-                <p className="text-slate-600 dark:text-slate-400 mt-1">
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
                   Extract structured data with intelligent AI processing
                 </p>
               </div>
@@ -358,7 +312,7 @@ export default function DocumentExtractionApp() {
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 py-8">
+      <div className="relative max-w-7xl z-10 container mx-auto px-6 py-8">
         <Tabs defaultValue="simple" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-200/50 dark:border-slate-800/50">
             <TabsTrigger
@@ -496,8 +450,8 @@ export default function DocumentExtractionApp() {
                     </div>
                   ) : (
                     <div className="space-y-6">
-                      <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200/50 dark:from-slate-800 dark:to-slate-700/50 inline-block">
-                        <Upload className="h-12 w-12 text-slate-400" />
+                      <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200/50 dark:from-slate-800 dark:to-slate-700/50 inline-block">
+                        <Upload className="h-10 w-10 text-slate-400 animate-float" />
                       </div>
                       <div>
                         <p className="text-xl font-semibold mb-2">Drop your document here</p>

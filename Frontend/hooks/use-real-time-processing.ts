@@ -134,7 +134,6 @@ export function useRealTimeProcessing() {
       }
 
       const uploadResult = await uploadResponse.json()
-      console.log("Upload result:", uploadResult)
 
       // Step 2: Processing
       updateProcessingState({
@@ -165,8 +164,6 @@ export function useRealTimeProcessing() {
 
       const processResult = await processResponse.json()
 
-      console.log(processResult)
-      
       // Step 3: Validation
       updateProcessingState({
         step: "validation",
@@ -180,7 +177,7 @@ export function useRealTimeProcessing() {
       // Step 4: Complete
       const finalData: ExtractedData = {
         id: uploadResult.document_id,
-        ...processResult.extracted_data,
+        ...processResult.data,
         confidence_score: processResult.confidence_score,
         processing_time: Date.now() - startTime,
         created_at: new Date().toISOString(),
